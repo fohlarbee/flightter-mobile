@@ -1,6 +1,9 @@
 import 'package:flighterr/features/dashboard/widgets/build_profile.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:iconsax/iconsax.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -8,6 +11,9 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
+
+final _formKey = GlobalKey<FormState>();
+final _searchController = TextEditingController();
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
@@ -18,6 +24,58 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Column(
             children: [
+              SizedBox(height: 50),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      height: 40,
+                      width: 150,
+                      child: Form(
+                        key: _formKey,
+                        child: TextFormField(
+                          controller: _searchController,
+                          decoration: InputDecoration(
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                  borderSide: BorderSide(color: Colors.white)),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(50),
+                                borderSide: BorderSide(
+                                    color:
+                                        Colors.white), // Enabled border color
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(50),
+                                borderSide: BorderSide(
+                                    color:
+                                        Colors.white), // Focused border color
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(50),
+                                borderSide: BorderSide(
+                                    color: Colors.red), // Error border color
+                              ),
+                              hintText: 'Search',
+                              hintStyle: TextStyle(color: Colors.white),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 16)),
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {},
+                      child: Icon(
+                        Iconsax.search_normal1,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               const SizedBox(
                 height: 100,
               ),
