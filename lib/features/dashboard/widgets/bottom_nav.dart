@@ -23,7 +23,7 @@ class _BottomNavigationWidgetState
     extends ConsumerState<BottomNavigationWidget> {
   @override
   Widget build(BuildContext context) {
-    final position = ref.watch(dashboardControllerProvider);
+    //final position = ref.watch(dashboardControllerProvider);
 
     return BottomAppBar(
       color: Colors.black,
