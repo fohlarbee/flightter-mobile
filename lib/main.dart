@@ -21,7 +21,7 @@ class _MyAppState extends ConsumerState<MyApp> {
     return MaterialApp.router(
       routeInformationParser: router.routeInformationParser,
       routeInformationProvider: router.routeInformationProvider,
-      title: 'Read 4 Me',
+      title: 'Flightter',
       routerDelegate: router.routerDelegate,
       debugShowCheckedModeBanner: false,
     );

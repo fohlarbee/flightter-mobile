@@ -1,3 +1,4 @@
+import 'package:flighterr/features/authentication/screens/login_screen.dart';
 import 'package:flighterr/features/dashboard/screens/dashboard.dart';
 import 'package:flighterr/features/dashboard/screens/home_screen.dart';
 import 'package:flighterr/features/dashboard/screens/profile_screen.dart';
@@ -19,6 +20,13 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       initialLocation: '/',
       refreshListenable: notifier,
       routes: [
+        GoRoute(
+          path: '/login',
+          name: 'login',
+          builder: (context, state) => LoginScreen(
+            key: state.pageKey,
+          ),
+        ),
         ShellRoute(
             navigatorKey: _shellNavigator,
             builder: (context, state, child) => DashboardScreen(
