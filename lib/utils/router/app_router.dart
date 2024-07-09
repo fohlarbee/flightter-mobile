@@ -1,4 +1,6 @@
 import 'package:flighterr/features/authentication/screens/login_screen.dart';
+import 'package:flighterr/features/authentication/screens/signup/birthday_screen.dart';
+import 'package:flighterr/features/authentication/screens/signup/email.dart';
 import 'package:flighterr/features/dashboard/screens/dashboard.dart';
 import 'package:flighterr/features/dashboard/screens/home_screen.dart';
 import 'package:flighterr/features/dashboard/screens/profile_screen.dart';
@@ -17,13 +19,27 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 
   return GoRouter(
       navigatorKey: _rootNavigator,
-      initialLocation: '/',
+      initialLocation: '/signupwithemail',
       refreshListenable: notifier,
       routes: [
         GoRoute(
           path: '/login',
           name: 'login',
           builder: (context, state) => LoginScreen(
+            key: state.pageKey,
+          ),
+        ),
+        GoRoute(
+          path: '/signupwithemail',
+          name: 'signupemail',
+          builder: (context, state) => SignUpWithEmail(
+            key: state.pageKey,
+          ),
+        ),
+        GoRoute(
+          path: '/birthday-screen',
+          name: 'birthday_screen',
+          builder: (context, state) => BirthdayScreen(
             key: state.pageKey,
           ),
         ),
