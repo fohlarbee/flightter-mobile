@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "930694187507",
+    "project_id": "flighterr-6b626",
+    "storage_bucket": "flighterr-6b626.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930694187507:android:c4a5e126621a8e1a82aa86",
+        "android_client_info": {
+          "package_name": "com.example.flighterr"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTuGHcQW0XFjUBChsAAlTZwHoQa1hOMhk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
