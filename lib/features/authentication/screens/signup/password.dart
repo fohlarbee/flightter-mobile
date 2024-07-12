@@ -1,24 +1,28 @@
+import 'dart:convert';
+
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flighterr/features/authentication/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
-class NicknameScreen extends StatefulWidget {
-  const NicknameScreen({super.key});
+class SignUpPassword extends StatefulWidget {
+  const SignUpPassword({super.key});
 
   @override
-  State<NicknameScreen> createState() => _NicknameScreenState();
+  State<SignUpPassword> createState() => _SignUpPasswordState();
 }
 
-class _NicknameScreenState extends State<NicknameScreen> {
+class _SignUpPasswordState extends State<SignUpPassword> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _nicknameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   bool _isLoading = false;
 
   @override
   void dispose() {
-    _nicknameController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 
@@ -28,11 +32,86 @@ class _NicknameScreenState extends State<NicknameScreen> {
         _isLoading = true;
       });
 
-      final nickname = _nicknameController.text;
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('nickname', nickname);
+      final String? email = prefs.getString('email');
+      final String? nickname = prefs.getString('nickname');
+      final String? birthday = prefs.getString('birthday');
 
-      context.go('/register-password');
+      if (email != null && nickname != null && birthday != null) {
+        final data = {
+          'email': email,
+          'userName': nickname,
+          'birthday': birthday,
+          'auth_provider': 'FLIGHTTER',
+          'password': passwordController.text
+        };
+
+        print(data);
+
+        final response = await http.post(
+          Uri.parse(
+              'https://flightter-api-node-v1.onrender.com/api/v1/auth/register'),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: jsonEncode(data),
+        );
+
+        // Print out the response from the server
+        print('Response status: ${response.statusCode}');
+        print('Response body: ${response.body}');
+
+        final responseBody = jsonDecode(response.body);
+
+        if (response.statusCode == 200) {
+          final String errorMessage =
+              responseBody['message'] ?? 'Account Created Successfully';
+
+          final String token = responseBody['token'];
+
+          prefs.setString('token', token);
+
+          final snackBar = SnackBar(
+            elevation: 0,
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            content: AwesomeSnackbarContent(
+              title: 'Success',
+              message: errorMessage,
+              contentType: ContentType.success,
+            ),
+          );
+
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(snackBar);
+
+          context.go('/');
+        } else {
+          final String errorMessage =
+              responseBody['message'] ?? 'Failed to sign up. Please try again.';
+
+          final snackBar = SnackBar(
+            elevation: 0,
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.transparent,
+            content: AwesomeSnackbarContent(
+              title: 'Error',
+              message: errorMessage,
+              contentType: ContentType.failure,
+            ),
+          );
+
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(snackBar);
+        }
+      } else {
+        // Handle missing data in SharedPreferences
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(content: Text('Missing required information.')),
+        // );
+      }
 
       setState(() {
         _isLoading = false;
@@ -58,51 +137,27 @@ class _NicknameScreenState extends State<NicknameScreen> {
                   children: [
                     Text.rich(TextSpan(children: [
                       TextSpan(
-                        text: 'Create your  \n',
+                        text: 'Enter your  \n',
                         style: TextStyle(
                             fontSize: 30, fontWeight: FontWeight.bold),
                       ),
                       TextSpan(
-                        text: 'nickname',
+                        text: 'password',
                         style: TextStyle(
                             fontSize: 30, fontWeight: FontWeight.bold),
                       )
                     ])),
                     const SizedBox(height: 20),
-                    Text.rich(TextSpan(children: [
-                      TextSpan(
-                        text: 'What should we call you?  \n',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      TextSpan(
-                        text: 'Choose a name you love and it shall be \n',
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                      TextSpan(
-                        text: ' your username. You can still change it  \n',
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'from your profile  \n',
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                    ])),
                     Container(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Form(
                           key: _formKey,
                           child: TextFormField(
-                            controller: _nicknameController,
+                            obscureText: true,
+                            controller: passwordController,
                             decoration: InputDecoration(
-                              hintText: '@',
+                              hintText: 'Enter your password',
                               hintStyle: TextStyle(color: Color(0xFF999999)),
                               border: UnderlineInputBorder(
                                 borderSide: BorderSide(width: 0.5),
@@ -110,7 +165,7 @@ class _NicknameScreenState extends State<NicknameScreen> {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please select a nickname';
+                                return 'Please input a password';
                               }
                               return null;
                             },

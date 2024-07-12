@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="facebook_app_id">336186096205348</string>
+    <string name="fb_login_protocol_scheme">fb336186096205348</string>
+    <string name="facebook_client_token">403703e41de00ab50fe1a0745789ea36</string>
+    <string name="app_name">"Flightter"</string>
+
+</resources>

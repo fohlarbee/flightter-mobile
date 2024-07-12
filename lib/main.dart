@@ -2,9 +2,13 @@ import 'package:flighterr/utils/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() {
+void main() async {
+  //WidgetsFlutterBinding.ensureInitialized();
+  //await Firebase.initializeApp();
   runApp(const ProviderScope(child: MyApp()));
 }
+
+//https://flighterr-6b626.firebaseapp.com/__/auth/handler
 
 class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});

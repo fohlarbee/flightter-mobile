@@ -1,7 +1,11 @@
+import 'package:flighterr/features/authentication/screens/login/email.dart';
+import 'package:flighterr/features/authentication/screens/login/password.dart';
 import 'package:flighterr/features/authentication/screens/login_screen.dart';
 import 'package:flighterr/features/authentication/screens/signup/birthday_screen.dart';
 import 'package:flighterr/features/authentication/screens/signup/email.dart';
 import 'package:flighterr/features/authentication/screens/signup/nickname_screen.dart';
+import 'package:flighterr/features/authentication/screens/signup/password.dart';
+import 'package:flighterr/features/authentication/screens/signup_screen.dart';
 import 'package:flighterr/features/dashboard/screens/dashboard.dart';
 import 'package:flighterr/features/dashboard/screens/home_screen.dart';
 import 'package:flighterr/features/dashboard/screens/profile_screen.dart';
@@ -31,12 +35,32 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           ),
         ),
         GoRoute(
+          path: '/register',
+          name: 'register',
+          builder: (context, state) => SignupScreen(
+            key: state.pageKey,
+          ),
+        ),
+        GoRoute(
           path: '/signupwithemail',
           name: 'signupemail',
           builder: (context, state) => SignUpWithEmail(
             key: state.pageKey,
           ),
         ),
+        GoRoute(
+          path: '/login-with-email',
+          name: 'loginwithemail',
+          builder: (context, state) => LoginWithEmail(
+            key: state.pageKey,
+          ),
+        ),
+        GoRoute(
+            path: '/login-with-password',
+            name: 'login-with-password',
+            builder: (context, state) => LoginWithPassword(
+                  key: state.pageKey,
+                )),
         GoRoute(
           path: '/birthday-screen',
           name: 'birthday_screen',
@@ -48,6 +72,13 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           path: '/nickname',
           name: 'nickname',
           builder: (context, state) => NicknameScreen(
+            key: state.pageKey,
+          ),
+        ),
+        GoRoute(
+          path: '/register-password',
+          name: 'register-password',
+          builder: (context, state) => SignUpPassword(
             key: state.pageKey,
           ),
         ),
