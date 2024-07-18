@@ -1,12 +1,13 @@
+import 'dart:convert';
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flighterr/features/authentication/widgets/checkbox.dart';
 import 'package:flighterr/features/authentication/widgets/top_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class SignUpWithEmail extends StatefulWidget {
   const SignUpWithEmail({super.key});
@@ -66,11 +67,43 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('email', email);
 
+      final url = 'https://flightter-api-node-v1.onrender.com/api/v1/auth/otp';
+
+      // print(email);
+
+      final response = await http.post(Uri.parse(url), body: {"email": email});
+
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        final responseBody = jsonDecode(response.body);
+        print(responseBody);
+
+        context.push('/otp');
+      } else {
+        final responseBody = jsonDecode(response.body);
+        final message =
+            responseBody['mssg'] ?? 'Failed to Sign up, please try again';
+
+        final snackBar = SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'Error!',
+            message: message,
+            contentType: ContentType.failure,
+          ),
+        );
+
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(snackBar);
+      }
+
       setState(() {
         _isLoading = false;
       });
-
-      context.go('/birthday-screen');
     }
   }
 
@@ -148,7 +181,7 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20),
-              child: Expanded(
+              child: Container(
                 child: Text(
                     'Your email address may be used to connect you to people you may know, improve ads, and more, depending on your settings. Learn more'),
               ),

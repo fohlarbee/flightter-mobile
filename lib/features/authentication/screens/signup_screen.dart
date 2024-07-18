@@ -214,7 +214,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 100),
+                const SizedBox(height: 60),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -235,7 +235,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             context.go('/register');
                           },
                           child: Text(
-                            'Sign up',
+                            'Login',
                             style: TextStyle(
                                 color: Colors.blueAccent,
                                 fontWeight: FontWeight.bold),

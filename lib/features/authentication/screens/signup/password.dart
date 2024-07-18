@@ -18,6 +18,8 @@ class SignUpPassword extends StatefulWidget {
 class _SignUpPasswordState extends State<SignUpPassword> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   bool _isLoading = false;
 
   @override
@@ -153,22 +155,46 @@ class _SignUpPasswordState extends State<SignUpPassword> {
                         padding: const EdgeInsets.all(8.0),
                         child: Form(
                           key: _formKey,
-                          child: TextFormField(
-                            obscureText: true,
-                            controller: passwordController,
-                            decoration: InputDecoration(
-                              hintText: 'Enter your password',
-                              hintStyle: TextStyle(color: Color(0xFF999999)),
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide(width: 0.5),
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                obscureText: true,
+                                controller: _confirmPasswordController,
+                                decoration: InputDecoration(
+                                  hintText: 'Enter your password',
+                                  hintStyle:
+                                      TextStyle(color: Color(0xFF999999)),
+                                  border: UnderlineInputBorder(
+                                    borderSide: BorderSide(width: 0.5),
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please input a password';
+                                  }
+                                  return null;
+                                },
                               ),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please input a password';
-                              }
-                              return null;
-                            },
+                              const SizedBox(height: 10),
+                              TextFormField(
+                                obscureText: true,
+                                controller: passwordController,
+                                decoration: InputDecoration(
+                                  hintText: 'Confirm password',
+                                  hintStyle:
+                                      TextStyle(color: Color(0xFF999999)),
+                                  border: UnderlineInputBorder(
+                                    borderSide: BorderSide(width: 0.5),
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please input a password';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ],
                           ),
                         ),
                       ),

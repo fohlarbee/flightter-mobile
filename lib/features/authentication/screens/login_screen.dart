@@ -214,7 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 100),
+                const SizedBox(height: 60),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [

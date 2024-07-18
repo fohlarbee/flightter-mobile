@@ -4,6 +4,7 @@ import 'package:flighterr/features/authentication/screens/login_screen.dart';
 import 'package:flighterr/features/authentication/screens/signup/birthday_screen.dart';
 import 'package:flighterr/features/authentication/screens/signup/email.dart';
 import 'package:flighterr/features/authentication/screens/signup/nickname_screen.dart';
+import 'package:flighterr/features/authentication/screens/signup/otp_screen.dart';
 import 'package:flighterr/features/authentication/screens/signup/password.dart';
 import 'package:flighterr/features/authentication/screens/signup_screen.dart';
 import 'package:flighterr/features/dashboard/screens/dashboard.dart';
@@ -24,7 +25,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 
   return GoRouter(
       navigatorKey: _rootNavigator,
-      initialLocation: '/login',
+      initialLocation: '/signupwithemail',
       refreshListenable: notifier,
       routes: [
         GoRoute(
@@ -33,6 +34,13 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           builder: (context, state) => LoginScreen(
             key: state.pageKey,
           ),
+        ),
+        GoRoute(
+          path: '/otp',
+          name: 'otp',
+          builder: ((context, state) => OTPScreen(
+                key: state.pageKey,
+              )),
         ),
         GoRoute(
           path: '/register',
