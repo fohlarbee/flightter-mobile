@@ -25,7 +25,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 
   return GoRouter(
       navigatorKey: _rootNavigator,
-      initialLocation: '/signupwithemail',
+      initialLocation: '/login',
       refreshListenable: notifier,
       routes: [
         GoRoute(

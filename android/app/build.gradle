@@ -69,3 +69,6 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.facebook.android:facebook-login:latest'
 }
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'

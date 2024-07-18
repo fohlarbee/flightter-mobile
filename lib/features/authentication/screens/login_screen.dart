@@ -232,7 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(width: 5),
                         InkWell(
                           onTap: () {
-                            context.go('/register');
+                            context.push('/register');
                           },
                           child: Text(
                             'Sign up',

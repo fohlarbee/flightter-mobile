@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flighterr/common/auth_services.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
@@ -21,6 +22,7 @@ const appleIcon =
     '<svg xmlns="http://www.w3.org/2000/svg" color="black" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M17.05 20.28c-.98.95-2.05.8-3.08.35c-1.09-.46-2.09-.48-3.24 0c-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8c1.18-.24 2.31-.93 3.57-.84c1.51.12 2.65.72 3.4 1.8c-3.12 1.87-2.38 5.98.48 7.13c-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25c.29 2.58-2.34 4.5-3.74 4.25"/></svg>';
 
 class _SignupScreenState extends State<SignupScreen> {
+  final GoogleAuthServices _authServices = GoogleAuthServices();
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -37,48 +39,20 @@ class _SignupScreenState extends State<SignupScreen> {
 
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
+
+    final userData = await FirebaseAuth.instance.currentUser;
+
+    print('Arome $userData');
   }
 
-  // Future<UserCredential> signInWithFacebook() async {
-  //   try {
-  //     // Trigger the Facebook login process
-  //     final LoginResult loginResult = await FacebookAuth.instance.login();
+  Future<void> signInWithFB() async {
+    await _authServices.signInWithFacebook();
+  }
 
-  //     if (loginResult.status == LoginStatus.success) {
-  //       // Get the access token
-  //       final AccessToken? accessToken = loginResult.accessToken;
-
-  //       if (accessToken != null) {
-  //         // Create a credential from the access token
-  //         final OAuthCredential credential =
-  //             FacebookAuthProvider.credential(accessToken.token);
-
-  //         // Sign in to Firebase with the credential
-  //         return await FirebaseAuth.instance.signInWithCredential(credential);
-  //       } else {
-  //         throw FirebaseAuthException(
-  //           code: 'Facebook Login Failed',
-  //           message: 'Access token is null.',
-  //         );
-  //       }
-  //     } else {
-  //       // Handle Facebook login failure
-  //       throw FirebaseAuthException(
-  //         code: 'Facebook Login Failed',
-  //         message:
-  //             loginResult.message ?? 'The Facebook login was not successful.',
-  //       );
-  //     }
-  //   } on FirebaseAuthException catch (e) {
-  //     // Handle Firebase authentication exceptions
-  //     print('Firebase Auth Exception: ${e.message}');
-  //     throw e; // rethrow the exception
-  //   } catch (e) {
-  //     // Handle other exceptions
-  //     print('Other Exception: $e');
-  //     throw e; // rethrow the exception
-  //   }
-  // }
+  Future<void> logout() async {
+    await FirebaseAuth.instance.signOut();
+    debugPrint('Logged out');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,6 +119,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: InkWell(
+                      onTap: signInWithFB,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -198,6 +173,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: InkWell(
+                      onTap: logout,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
