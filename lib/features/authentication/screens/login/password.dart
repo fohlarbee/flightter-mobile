@@ -33,12 +33,11 @@ class _LoginWithPasswordState extends State<LoginWithPassword> {
       });
 
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String? email = prefs.getString('email');
-      final String? nickname = prefs.getString('nickname');
-      final String? birthday = prefs.getString('birthday');
+      final String? email = await prefs.getString('email');
+      final password = passwordController.text;
 
-      if (email != null && nickname != null && birthday != null) {
-        final data = {'email': email, 'password': passwordController.text};
+      if (email != null) {
+        final data = {'email': email, 'password': password};
 
         print(data);
 
@@ -61,29 +60,31 @@ class _LoginWithPasswordState extends State<LoginWithPassword> {
           final String errorMessage =
               responseBody['message'] ?? 'Login Successful';
 
-          final String token = responseBody['token'];
+          final String? token = responseBody['token'];
 
-          prefs.setString('token', token);
+          if (token != null) {
+            prefs.setString('token', token);
 
-          final snackBar = SnackBar(
-            elevation: 0,
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.transparent,
-            content: AwesomeSnackbarContent(
-              title: 'Success',
-              message: errorMessage,
-              contentType: ContentType.success,
-            ),
-          );
+            final snackBar = SnackBar(
+              elevation: 0,
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.transparent,
+              content: AwesomeSnackbarContent(
+                title: 'Success',
+                message: errorMessage,
+                contentType: ContentType.success,
+              ),
+            );
 
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(snackBar);
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(snackBar);
 
-          context.go('/');
+            context.push('/');
+          }
         } else {
           final String errorMessage =
-              responseBody['message'] ?? 'Failed to login. Please try again.';
+              responseBody['msg'] ?? 'Failed to login. Please try again.';
 
           final snackBar = SnackBar(
             elevation: 0,

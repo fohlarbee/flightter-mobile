@@ -32,7 +32,7 @@ class _NicknameScreenState extends State<NicknameScreen> {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('nickname', nickname);
 
-      context.go('/register-password');
+      context.push('/register-password');
 
       setState(() {
         _isLoading = false;

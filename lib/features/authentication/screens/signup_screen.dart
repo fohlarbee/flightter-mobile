@@ -40,9 +40,9 @@ class _SignupScreenState extends State<SignupScreen> {
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
 
-    final userData = await FirebaseAuth.instance.currentUser;
+    //final userData = await FirebaseAuth.instance.currentUser;
 
-    print('Arome $userData');
+    //print('Arome $userData');
   }
 
   Future<void> signInWithFB() async {
@@ -88,12 +88,12 @@ class _SignupScreenState extends State<SignupScreen> {
                     border: Border.all(width: 2, color: Colors.grey),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: InkWell(
-                      onTap: () {
-                        context.go('/signupwithemail');
-                      },
+                  child: InkWell(
+                    onTap: () {
+                      context.push('/signupwithemail');
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -116,10 +116,10 @@ class _SignupScreenState extends State<SignupScreen> {
                     border: Border.all(width: 2, color: Colors.grey),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: InkWell(
-                      onTap: signInWithFB,
+                  child: InkWell(
+                    onTap: signInWithFB,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

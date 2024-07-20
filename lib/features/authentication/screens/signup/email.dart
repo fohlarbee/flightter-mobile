@@ -64,20 +64,19 @@ class _SignUpWithEmailState extends State<SignUpWithEmail> {
       });
 
       final email = _emailController.text;
+      // print("Email to be sent: $email");
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('email', email);
 
       final url = 'https://flightter-api-node-v1.onrender.com/api/v1/auth/otp';
 
-      // print(email);
-
-      final response = await http.post(Uri.parse(url), body: {"email": email});
-
-      print(response.body);
+      final response = await http.post(Uri.parse(url),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({"email": email}));
 
       if (response.statusCode == 200) {
-        final responseBody = jsonDecode(response.body);
-        print(responseBody);
+        //final responseBody = jsonDecode(response.body);
+        //print(responseBody);
 
         context.push('/otp');
       } else {

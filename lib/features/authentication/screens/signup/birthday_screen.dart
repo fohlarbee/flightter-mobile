@@ -52,7 +52,7 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
         _isLoading = false;
       });
 
-      context.go('/nickname');
+      context.push('/nickname');
     }
   }
 

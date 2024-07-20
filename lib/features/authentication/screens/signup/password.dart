@@ -43,8 +43,7 @@ class _SignUpPasswordState extends State<SignUpPassword> {
         final data = {
           'email': email,
           'userName': nickname,
-          'birthday': birthday,
-          'auth_provider': 'FLIGHTTER',
+          'authProvider': 'FLIGHTTER',
           'password': passwordController.text
         };
 
@@ -65,7 +64,7 @@ class _SignUpPasswordState extends State<SignUpPassword> {
 
         final responseBody = jsonDecode(response.body);
 
-        if (response.statusCode == 200) {
+        if (response.statusCode == 201) {
           final String errorMessage =
               responseBody['message'] ?? 'Account Created Successfully';
 
@@ -88,7 +87,7 @@ class _SignUpPasswordState extends State<SignUpPassword> {
             ..hideCurrentSnackBar()
             ..showSnackBar(snackBar);
 
-          context.go('/');
+          context.push('/login-with-email');
         } else {
           final String errorMessage =
               responseBody['message'] ?? 'Failed to sign up. Please try again.';

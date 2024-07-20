@@ -46,9 +46,13 @@ class _OTPScreenState extends State<OTPScreen> {
     final otp = _pinController.text;
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final email = await prefs.getString('email');
+    final data = {
+      'email': email,
+      'otp': otp,
+    };
 
-    final response =
-        await http.post(Uri.parse(url), body: {"email": email, "otp": otp});
+    final response = await http.post(Uri.parse(url),
+        headers: {'Content-Type': 'application/json'}, body: jsonEncode(data));
 
     if (response.statusCode == 200) {
       final responseBody = jsonDecode(response.body);
@@ -56,13 +60,16 @@ class _OTPScreenState extends State<OTPScreen> {
 
       context.push('/birthday-screen');
     } else {
+      final responseBody = jsonDecode(response.body);
+      final message =
+          responseBody['mssg'] ?? 'Failed to verify OTP. Please try again.';
       final snackBar = SnackBar(
         elevation: 0,
         behavior: SnackBarBehavior.floating,
         backgroundColor: Colors.transparent,
         content: AwesomeSnackbarContent(
           title: 'Error!',
-          message: 'Failed to verify OTP. Please try again.',
+          message: message,
           contentType: ContentType.failure,
         ),
       );
