@@ -170,10 +170,10 @@ class _SignupScreenState extends State<SignupScreen> {
                     border: Border.all(width: 2, color: Colors.grey),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: InkWell(
-                      onTap: logout,
+                  child: InkWell(
+                    onTap: logout,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

@@ -39,7 +39,7 @@ class _LoginWithPasswordState extends State<LoginWithPassword> {
       if (email != null) {
         final data = {'email': email, 'password': password};
 
-        print(data);
+        //print(data);
 
         final response = await http.post(
           Uri.parse(
@@ -51,19 +51,24 @@ class _LoginWithPasswordState extends State<LoginWithPassword> {
         );
 
         // Print out the response from the server
-        print('Response status: ${response.statusCode}');
-        print('Response body: ${response.body}');
+        // print('Response status: ${response.statusCode}');
+        // print('Response body: ${response.body}');
 
-        final responseBody = jsonDecode(response.body);
+        final responseBody = await jsonDecode(response.body);
+
+        print(responseBody);
 
         if (response.statusCode == 200) {
-          final String errorMessage =
+          final String successMessage =
               responseBody['message'] ?? 'Login Successful';
 
-          final String? token = responseBody['token'];
+          final String? token = responseBody['data']['token'];
+
+          print(token);
 
           if (token != null) {
             prefs.setString('token', token);
+            print(token);
 
             final snackBar = SnackBar(
               elevation: 0,
@@ -71,7 +76,7 @@ class _LoginWithPasswordState extends State<LoginWithPassword> {
               backgroundColor: Colors.transparent,
               content: AwesomeSnackbarContent(
                 title: 'Success',
-                message: errorMessage,
+                message: successMessage,
                 contentType: ContentType.success,
               ),
             );
@@ -102,10 +107,13 @@ class _LoginWithPasswordState extends State<LoginWithPassword> {
             ..showSnackBar(snackBar);
         }
       } else {
-        // Handle missing data in SharedPreferences
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   SnackBar(content: Text('Missing required information.')),
-        // );
+        final snackBar = SnackBar(
+          content: Text('Missing required information.'),
+        );
+
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(snackBar);
       }
 
       setState(() {

@@ -39,47 +39,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  // Future<UserCredential> signInWithFacebook() async {
-  //   try {
-  //     // Trigger the Facebook login process
-  //     final LoginResult loginResult = await FacebookAuth.instance.login();
-
-  //     if (loginResult.status == LoginStatus.success) {
-  //       // Get the access token
-  //       final AccessToken? accessToken = loginResult.accessToken;
-
-  //       if (accessToken != null) {
-  //         // Create a credential from the access token
-  //         final OAuthCredential credential =
-  //             FacebookAuthProvider.credential(accessToken.token);
-
-  //         // Sign in to Firebase with the credential
-  //         return await FirebaseAuth.instance.signInWithCredential(credential);
-  //       } else {
-  //         throw FirebaseAuthException(
-  //           code: 'Facebook Login Failed',
-  //           message: 'Access token is null.',
-  //         );
-  //       }
-  //     } else {
-  //       // Handle Facebook login failure
-  //       throw FirebaseAuthException(
-  //         code: 'Facebook Login Failed',
-  //         message:
-  //             loginResult.message ?? 'The Facebook login was not successful.',
-  //       );
-  //     }
-  //   } on FirebaseAuthException catch (e) {
-  //     // Handle Firebase authentication exceptions
-  //     print('Firebase Auth Exception: ${e.message}');
-  //     throw e; // rethrow the exception
-  //   } catch (e) {
-  //     // Handle other exceptions
-  //     print('Other Exception: $e');
-  //     throw e; // rethrow the exception
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -114,12 +73,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     border: Border.all(width: 2, color: Colors.grey),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: InkWell(
-                      onTap: () {
-                        context.go('/login-with-email');
-                      },
+                  child: InkWell(
+                    onTap: () {
+                      context.go('/login-with-email');
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -195,9 +154,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     border: Border.all(width: 2, color: Colors.grey),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: InkWell(
+                  child: InkWell(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
