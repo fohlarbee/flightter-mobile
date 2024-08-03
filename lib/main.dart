@@ -12,9 +12,6 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-//https://flighterr-6b626.firebaseapp.com/__/auth/handler
-//eb7e9ab37ed2da6af2de73f2a66cd2982c0c17bd9528d057b1c12fec3de466e52ccf3f726dbdd879
-
 class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 

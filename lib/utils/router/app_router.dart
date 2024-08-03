@@ -10,6 +10,7 @@ import 'package:flighterr/features/authentication/screens/signup_screen.dart';
 import 'package:flighterr/features/dashboard/screens/dashboard.dart';
 import 'package:flighterr/features/dashboard/screens/home_screen.dart';
 import 'package:flighterr/features/dashboard/screens/profile_screen.dart';
+import 'package:flighterr/features/deepar/screen/camera_screen.dart';
 import 'package:flighterr/utils/router/go_router_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -110,6 +111,13 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                   builder: (context, state) => ProfileScreen(
                         key: state.pageKey,
                       )),
-            ])
+              GoRoute(
+                path: '/camera',
+                name: 'camera',
+                builder: (context, state) => CameraScreen(
+                  key: state.pageKey,
+                ),
+              )
+            ]),
       ]);
 });
