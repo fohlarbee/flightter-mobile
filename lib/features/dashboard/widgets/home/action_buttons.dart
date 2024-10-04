@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:go_router/go_router.dart';
 
 class ActionButtons extends StatelessWidget {
   const ActionButtons({
@@ -16,7 +17,9 @@ class ActionButtons extends StatelessWidget {
           Column(
             children: [
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  context.push('/camera');
+                },
                 child: const Column(
                   children: [
                     Icon(

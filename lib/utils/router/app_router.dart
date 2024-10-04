@@ -11,6 +11,8 @@ import 'package:flighterr/features/dashboard/screens/dashboard.dart';
 import 'package:flighterr/features/dashboard/screens/home_screen.dart';
 import 'package:flighterr/features/dashboard/screens/profile_screen.dart';
 import 'package:flighterr/features/deepar/screen/camera_screen.dart';
+import 'package:flighterr/features/upload/screen/upload_video_screen.dart';
+import 'package:flighterr/utils/router/app_router_redirect.dart';
 import 'package:flighterr/utils/router/go_router_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,7 +30,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       navigatorKey: _rootNavigator,
       initialLocation: '/login',
       refreshListenable: notifier,
-      //redirect: appRouterRedirect,
+      //redirect: (context, state) => appRouterRedirect(context, state),
       routes: [
         GoRoute(
           path: '/login',
@@ -44,6 +46,13 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 key: state.pageKey,
               )),
         ),
+        GoRoute(
+            path: '/upload',
+            name: 'upload',
+            builder: (context, state) {
+              final videoPath = state.extra as String;
+              return UploadVideoScreen(videoPath: videoPath);
+            }),
         GoRoute(
           path: '/register',
           name: 'register',

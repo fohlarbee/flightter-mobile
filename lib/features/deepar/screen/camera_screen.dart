@@ -4,6 +4,7 @@ import 'package:deepar_flutter/deepar_flutter.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flighterr/constants/constants.dart';
+import 'package:path_provider/path_provider.dart';
 import '../data/filter_data.dart';
 
 class CameraScreen extends StatefulWidget {
@@ -28,16 +29,48 @@ class _CameraScreenState extends State<CameraScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // IconButton(
+          //   onPressed: deepArController.flipCamera,
+          //   icon: const Icon(
+          //     Icons.flip_camera_ios_outlined,
+          //     size: 34,
+          //     color: Colors.white,
+          //   ),
+          // ),
           IconButton(
-            onPressed: deepArController.flipCamera,
+            onPressed: () async {
+              await deepArController.stopVideoRecording();
+            },
             icon: const Icon(
-              Icons.flip_camera_ios_outlined,
+              Icons.stop,
               size: 34,
               color: Colors.white,
             ),
           ),
           FilledButton(
-            onPressed: deepArController.takeScreenshot,
+            onPressed: () async {
+              await deepArController.startVideoRecording();
+              final File file = await deepArController.takeScreenshot();
+
+              if (await file.exists()) {
+                final Directory? appDocDir =
+                    await getExternalStorageDirectory();
+                if (appDocDir != null) {
+                  final String picturesPath = '${appDocDir.path}/Pictures';
+                  final Directory picturesDir = Directory(picturesPath);
+                  if (!await picturesDir.exists()) {
+                    picturesDir.create(recursive: true);
+                  }
+                  final String localPath = '$picturesPath/image.jpg';
+                  await file.rename(localPath);
+                  debugPrint('File moved to: $localPath');
+                } else {
+                  debugPrint('External storage directory not found');
+                }
+              } else {
+                debugPrint('File does not exist');
+              }
+            },
             child: const Icon(Icons.camera),
           ),
           IconButton(
@@ -52,7 +85,7 @@ class _CameraScreenState extends State<CameraScreen> {
       );
 
   Widget buildCameraPreview() => SizedBox(
-        height: MediaQuery.of(context).size.height * 0.82,
+        height: MediaQuery.of(context).size.height * 0.72,
         child: Transform.scale(
           scale: 1.5,
           child: DeepArPreview(deepArController),

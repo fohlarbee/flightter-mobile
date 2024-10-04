@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 
 class BottomNavigationWidget extends ConsumerStatefulWidget {
   const BottomNavigationWidget({super.key});
@@ -21,6 +22,8 @@ const profileOutlined =
 
 class _BottomNavigationWidgetState
     extends ConsumerState<BottomNavigationWidget> {
+  final ImagePicker _picker = ImagePicker();
+
   @override
   Widget build(BuildContext context) {
     //final position = ref.watch(dashboardControllerProvider);
@@ -82,6 +85,53 @@ class _BottomNavigationWidgetState
     );
   }
 
+  void displayDialogBox() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: const Text('Upload Video'),
+          children: [
+            SimpleDialogOption(
+              onPressed: () {
+                Navigator.pop(context);
+                _pickVideoFromGallery();
+              },
+              child: const Text('Choose from Gallery'),
+            ),
+            SimpleDialogOption(
+              onPressed: () {
+                Navigator.pop(context);
+                _recordVideo();
+              },
+              child: const Text('Record Video'),
+            ),
+            SimpleDialogOption(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _pickVideoFromGallery() async {
+    final XFile? video = await _picker.pickVideo(source: ImageSource.gallery);
+    if (video != null) {
+      context.go('/upload', extra: video.path);
+    }
+  }
+
+  void _recordVideo() async {
+    final XFile? video = await _picker.pickVideo(source: ImageSource.camera);
+    if (video != null) {
+      context.go('/upload', extra: video.path);
+    }
+  }
+
   void _onTap(int index) {
     ref.read(dashboardControllerProvider.notifier).setPosition(index);
 
@@ -90,7 +140,7 @@ class _BottomNavigationWidgetState
         context.go('/');
         break;
       case 1:
-        context.go('/');
+        displayDialogBox();
         break;
       case 2:
         context.go('/profile');

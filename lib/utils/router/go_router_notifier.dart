@@ -16,16 +16,6 @@ final firstLaunchNotifierProvider = FutureProvider<bool>((ref) async {
   return isFirstLaunch;
 });
 
-Future<String?> appRouterRedirect(
-    BuildContext context, GoRouterState state) async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  final bool isLoggedIn = prefs.getString('token') != null;
-  if (isLoggedIn) {
-    return '/';
-  }
-  return '/login';
-}
-
 class GoRouterNotifier extends ChangeNotifier {
   bool _isLoggedIn = false;
   bool get isLoggedIn => _isLoggedIn;
